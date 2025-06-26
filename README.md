@@ -51,7 +51,7 @@ Connect via Breadbord or solder the wires(highly recommended).
 Below is the schematic for my setup. 
 The soil sensor sits in your flower pot. Push it down 1-2 cm. 
 The ultrasonic ranging module you place looking down in your water reservoir / water bucket. You place the pump in the water.
-![Schematic](schematic.png)
+![Schematic](images/schematic.png)
 ```
 LCD Display:    SDA = Pin 14, SCL = Pin 15
 Soil Sensor:    SDA = Pin 0,  SCL = Pin 1
@@ -72,7 +72,7 @@ node -v
 npm - v
 ```
 It should look like this. Yours might be newer.
-![alt text](image.png)
+![alt text](images/image.png)
 
 
 ### Install Visual Studio Code
@@ -123,11 +123,13 @@ WIFI_SSID = "WIFI_SSID" # Enter your WIFI SSID
 WIFI_PASS = "WIFI_PASSWORD" # Enter your WIFI PASSWORD
 
 # MQTT keys
-MQTT_BROKER = "serveradress:port" # Change to your server  
+MQTT_BROKER = "serveradress" # Change to your server  
+MQTT_PORT = 1883                  # Default port is 1883  
 MQTT_USER = "admin"               # Change this
 MQTT_PASS = "password"            # Change this
 MQTT_TOPIC = "TopicName"          # any unique name
 CLIENT_ID = "Can be anything"     # any unique name
+
 ```
 
 ## Platform
@@ -188,7 +190,7 @@ I use WIFI which it tries to connect to before it does anything else. If it has 
 
 [Grafana](https://grafana.rickardssons.se/public-dashboards/24dd0d5f85534901976ab4207556e5a6)
 
-![alt text](grafana.png)
+![alt text](images/grafana.png)
 
 ### Updates 
 
