@@ -5,7 +5,6 @@ import time
 from soil_sensor.stemma_soil_sensor import StemmaSoilSensor
 from LCD.I2C_LCD import I2CLcd
 
-
 # Setup pins and sensors (moved from main)
 Trig = Pin(19, Pin.OUT, 0)
 Echo = Pin(18, Pin.IN, 0)
@@ -16,17 +15,17 @@ enable.freq(1000)
 enable.duty_u16(65535)
 soundVelocity = 340
 
-i2c = I2C(1, sda=Pin(14), scl=Pin(15), freq=400000)
-devices = i2c.scan()
+lcdScreen = I2C(1, sda=Pin(14), scl=Pin(15), freq=400000)
+devices = lcdScreen.scan()
 lcd = None
 if devices:
-    lcd = I2CLcd(i2c, devices[0], 2, 16)
+    lcd = I2CLcd(lcdScreen, devices[0], 2, 16)
 
 sensor = I2C(sda=Pin(0), scl=Pin(1), freq=400000)
 seesaw = StemmaSoilSensor(sensor)
 
 PUMP_COUNTER = 0 # To see how many times the pump has been activated.
-PUMP_DURATION = 5 # How long the pump should be active
+PUMP_DURATION = 10 # How long the pump should be active
 MOISTURE_THRESHOLD = 400 # Threshold before watering plant starts
 LCD_INTERVAL = 30 * 1000 # 30 second interval
 SEND_INTERVAL = 1 * 60 * 60 * 1000  # Timer to send less frequent updates
@@ -102,7 +101,7 @@ def update_lcd(moisture, water_level):
     lcd.putstr("Water Level:%d" % water_level)
 
 # -------------------- PUMP CONTROL --------------------
-def pump_on(client):
+def pump_on(client, water_level):
     global PUMP_COUNTER
     print("Activating pump")
     pumpPin1.value(1)
@@ -111,6 +110,7 @@ def pump_on(client):
 
     data = {
     "pump_counter": PUMP_COUNTER,
+    "water_level": water_level
     }
 
     # Convert data dict to JSON string
@@ -128,7 +128,7 @@ def water_plant(moisture, waterlevel, last_pump_time, PUMP_INTERVAL, current_tim
         # Automatically pumps water
     if moisture < MOISTURE_THRESHOLD and waterlevel > 20 and time.ticks_diff(current_time, last_pump_time) > PUMP_INTERVAL :
         print("Watering plant...")
-        pump_on(client)
+        pump_on(client, waterlevel)
         time.sleep(PUMP_DURATION)
         pump_off()
         print("Pump deactivated")
@@ -137,3 +137,4 @@ def water_plant(moisture, waterlevel, last_pump_time, PUMP_INTERVAL, current_tim
     else:
         pump_off()
         return last_pump_time
+    

@@ -18,7 +18,7 @@ last_pump_time = time.ticks_ms() - PUMP_INTERVAL  # So it is ready to pump right
 try: 
     # Set Welcome message
     if sensorReads.devices != []:
-        lcd = I2CLcd(sensorReads.i2c, sensorReads.devices[0], 2, 16)
+        lcd = I2CLcd(sensorReads.lcdScreen, sensorReads.devices[0], 2, 16)
         lcd.move_to(4, 0)
         lcd.putstr("Welcome!")
 
@@ -29,7 +29,7 @@ try:
         print("WiFi already connected")
 
     # Get your MQTT client
-    from mqttConnection import connect_mqtt
+    from connections.mqttConnection import connect_mqtt
        
     while True:              # Repeat this loop forever
         time.sleep_ms(1000)

@@ -7,7 +7,7 @@ client = None
     # Try WiFi Connection
 try:
     ip = wifiConnection.connect()
-    client = MQTTClient(keys.CLIENT_ID, keys.MQTT_BROKER, user=keys.MQTT_USER, password=keys.MQTT_PASS)
+    client = MQTTClient(keys.CLIENT_ID, keys.MQTT_BROKER, port=keys.MQTT_PORT, user=keys.MQTT_USER, password=keys.MQTT_PASS)
     client.connect()
     print("Connected to MQTT broker")
 except Exception as e:
