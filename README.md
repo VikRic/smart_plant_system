@@ -46,11 +46,12 @@ Connect via Breadbord or solder the wires(highly recommended).
 
 ### **Total Amount ≈ 50 €**
 
-### Putting everything together
+### Putting everything together   
 
 Below is the schematic for my setup. 
 The soil sensor sits in your flower pot. Push it down 1-2 cm. 
 The ultrasonic ranging module you place looking down in your water reservoir / water bucket. You place the pump in the water.
+
 ![Schematic](images/schematic.png)
 ```
 LCD Display:    SDA = Pin 14, SCL = Pin 15
@@ -72,7 +73,9 @@ node -v
 npm - v
 ```
 It should look like this. Yours might be newer.
-![alt text](images/image.png)
+
+<img src="images/image.png" alt="sideView" width="200">
+
 
 
 ### Install Visual Studio Code
@@ -212,8 +215,14 @@ Real-time display shows:
 - Line 1: Current soil moisture level
 - Line 2: Water reservoir level
 
-## Operation
+## Finalizing the design
 
+Here you can see how pictures with a long dead plant just to see my setup which is far from great. It's just a working concept. For a more permanent solution I suggest longer cables so batteries, pico and LCD dont have to sit on the edge of the pot.
+<img src="https://github.com/user-attachments/assets/25156d86-f47f-412b-aa4f-0ebbfa27e07e" alt="sideView" width="400">
+<img src="https://github.com/user-attachments/assets/25521026-0faf-4513-8e1a-e7d6acc5d1bf" alt="topView" width="400">
+
+
+## Operation
 1. **System starts** and connects to WiFi & 
 2. **Sensors initialize** and begin continuous monitoring
 3. **LCD displays** current readings every 30 seconds
@@ -227,7 +236,7 @@ Real-time display shows:
 
 ### Common Issues
 - **No I2C devices found**: Check wiring and power connections
-- **WiFi connection fails**: Verify credentials in `wifiConnection.py`
+- **WiFi connection fails**: Verify credentials in `keys.py`
 - **InfluxDB errors**: Check URL, token, and bucket configuration
 - **Ultrasonic timeouts**: Ensure sensor has clear line of sight
 
@@ -251,5 +260,3 @@ The system outputs detailed logging including:
 - Email/SMS notifications for low water levels
 - Multiple plant support with individual sensors
 - Better wire management
-
-
