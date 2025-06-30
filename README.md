@@ -219,8 +219,7 @@ Real-time display shows:
 
 Here you can see how pictures with a long dead plant just to see my setup which is far from great. It's just a working concept. For a more permanent solution I suggest longer cables so batteries, pico and LCD dont have to sit on the edge of the pot.
 <img src="https://github.com/user-attachments/assets/25156d86-f47f-412b-aa4f-0ebbfa27e07e" alt="sideView" width="400">
-<img src="https://github.com/user-attachments/assets/25521026-0faf-4513-8e1a-e7d6acc5d1bf" alt="topView" width="400">
-
+<img src="https://github.com/user-attachments/assets/577bf73a-9b1a-469e-a36d-f5f2c61c2bd5" alt="topView" width="400">
 
 ## Operation
 1. **System starts** and connects to WiFi & 
