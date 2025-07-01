@@ -44,9 +44,9 @@ I hope this will make my plants survive a bit longer and perhaps I'll even learn
 Jumper Wires  
 Connect via Breadbord or solder the wires(highly recommended).
 
-### **Total Amount ≈ 50 €**
+#### **Total Amount ≈ 50 €**
 
-## Putting everything together   
+### Putting everything together   
 
 Below is the schematic for my setup. 
 The soil sensor sits in your flower pot. Push it down 1-2 cm. 
