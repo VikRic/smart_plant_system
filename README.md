@@ -39,7 +39,7 @@ I hope this will make my plants survive a bit longer and perhaps I'll even learn
 | [Ultrasonic Sensor (HC-SR04)](https://www.electrokit.com/avstandsmatare-ultraljud-hc-sr04-2-400cm) | Measures water tank level | <img src="https://www.electrokit.com/upload/product/41013/41013207/41013207.jpg" width=150/> | 5 € |
 | [16x2 I2C LCD](https://store.freenove.com/products/fnk0079)  | Displays sensor readings  | <img src="https://store.freenove.com/cdn/shop/files/FNK0079A.MAIN_bf8261ed-d143-43fe-accc-fd3bafdff7be.jpg?v=1736228994&width=713" width=150/> | 8 € |
 | [Water pump ](https://www.electrokit.com/drankbar-pump-3v)  | Waters the plant  |  <img src="https://www.electrokit.com/upload/product/41018/41018791/41018791.jpg" width=150/> |   5 € |
-| [Motor driver chip](https://www.electrokit.com/en/l293dn-dip-16-drivkrets-push-pull-4-kan)  | Back voltage security   |  <img src="https://www.electrokit.com/upload/product/common/DIP-16.jpg" width=150/> | 2 € |
+| [Motor driver chip](https://www.electrokit.com/en/l293dn-dip-16-drivkrets-push-pull-4-kan)  | Pump controller   |  <img src="https://www.electrokit.com/upload/product/common/DIP-16.jpg" width=150/> | 2 € |
 
 Jumper Wires  
 Connect via Breadbord or solder the wires(highly recommended).
