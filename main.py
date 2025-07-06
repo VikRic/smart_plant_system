@@ -5,15 +5,25 @@ import connections.wifiConnection as wifiConnection           # Contains functio
 from LCD.I2C_LCD import I2CLcd  # LCD Library
 import sensorReads              # All sensor reads & pump activators
 import gc                       # Garbage collector
-
+import urequests                # Sending http requests
+ 
 # -------------------- CONSTANTS / GLOBALS --------------------
 client = None
+
 LCD_INTERVAL = 30 * 1000             # 30 second interval to update screen
-SEND_INTERVAL = 1 * 60 * 60 * 1000   # Timer to send less frequent updates
-PUMP_INTERVAL = 12 * 60 * 60 * 1000  # Timer incase moisture sensor gives faulty readings.
+SEND_INTERVAL = 1 * 60 * 60 * 1000   # 1 hour interval to send less frequent updates
+PUMP_INTERVAL = 12 * 60 * 60 * 1000  # 12 hour timer in case moisture sensor gives faulty readings.
+
 last_lcd_time = time.ticks_ms() - LCD_INTERVAL
 last_sent_time = time.ticks_ms() - SEND_INTERVAL  # So it is ready at start.
 last_pump_time = time.ticks_ms() - PUMP_INTERVAL  # So it is ready to pump right away
+
+# Sends water level to discord.
+def send_discord_message(msg):
+    payload = {"content": "Time to fill up! Waterlevel is at: %d%%" %msg}
+    request = urequests.post(keys.DISCORD_URL, data = json.dumps(payload),
+    headers = {'Content-Type': 'application/json'})
+    request.close()
 
 try: 
     # Set Welcome message
@@ -29,7 +39,7 @@ try:
         print("WiFi already connected")
 
     # Get your MQTT client
-    from connections.mqttConnection import connect_mqtt
+    from connections.mqttConnection import connect_mqtt, mqtt_send
        
     while True:              # Repeat this loop forever
         time.sleep_ms(1000)
@@ -38,6 +48,7 @@ try:
         wifi_connected = wifiConnection.is_connected()
         if not wifi_connected:
             print("Lost wifi, reconnecting...")
+            time.sleep(10)
             wifiConnection.connect()
             gc.collect()     
 
@@ -54,22 +65,17 @@ try:
             last_lcd_time = current_time
 
         if wifi_connected and time.ticks_diff(current_time, last_sent_time) > SEND_INTERVAL:
-
-            data = {
-                "moisture": moisture,
-                "temperature": temperature,
-            }
-
-            # Convert to JSON string
-            payload = json.dumps(data)
-            
             # Publish
-            client.publish(keys.MQTT_TOPIC, payload)
-            print("Published:", payload)
+            mqtt_send(moisture, temperature, water_level, client = client)
             last_sent_time = current_time
+            if water_level < 30:
+                send_discord_message(water_level)
 
         if wifi_connected:
-            last_pump_time = sensorReads.water_plant(moisture, water_level, last_pump_time,  PUMP_INTERVAL, current_time, client)
+            last_pump_time, pump_data = sensorReads.water_plant(moisture, water_level, last_pump_time, PUMP_INTERVAL)
+            if pump_data and client:
+                # Publish
+                mqtt_send(moisture, temperature, water_level, counter=pump_data["pump_counter"], client = client) 
 
 finally:
     if client is not None:

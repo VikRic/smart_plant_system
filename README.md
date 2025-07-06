@@ -39,18 +39,19 @@ I hope this will make my plants survive a bit longer and perhaps I'll even learn
 | [Ultrasonic Sensor (HC-SR04)](https://www.electrokit.com/avstandsmatare-ultraljud-hc-sr04-2-400cm) | Measures water tank level | <img src="https://www.electrokit.com/upload/product/41013/41013207/41013207.jpg" width=150/> | 5 € |
 | [16x2 I2C LCD](https://store.freenove.com/products/fnk0079)  | Displays sensor readings  | <img src="https://store.freenove.com/cdn/shop/files/FNK0079A.MAIN_bf8261ed-d143-43fe-accc-fd3bafdff7be.jpg?v=1736228994&width=713" width=150/> | 8 € |
 | [Water pump ](https://www.electrokit.com/drankbar-pump-3v)  | Waters the plant  |  <img src="https://www.electrokit.com/upload/product/41018/41018791/41018791.jpg" width=150/> |   5 € |
-| [Motor driver chip](https://www.electrokit.com/en/l293dn-dip-16-drivkrets-push-pull-4-kan)  | Back voltage security   |  <img src="https://www.electrokit.com/upload/product/common/DIP-16.jpg" width=150/> | 2 € |
+| [Motor driver chip](https://www.electrokit.com/en/l293dn-dip-16-drivkrets-push-pull-4-kan)  | Pump controller   |  <img src="https://www.electrokit.com/upload/product/common/DIP-16.jpg" width=150/> | 2 € |
 
 Jumper Wires  
 Connect via Breadbord or solder the wires(highly recommended).
 
-### **Total Amount ≈ 50 €**
+#### **Total Amount ≈ 50 €**
 
-### Putting everything together
+### Putting everything together   
 
 Below is the schematic for my setup. 
 The soil sensor sits in your flower pot. Push it down 1-2 cm. 
 The ultrasonic ranging module you place looking down in your water reservoir / water bucket. You place the pump in the water.
+
 ![Schematic](images/schematic.png)
 ```
 LCD Display:    SDA = Pin 14, SCL = Pin 15
@@ -72,8 +73,8 @@ node -v
 npm - v
 ```
 It should look like this. Yours might be newer.
-![alt text](images/image.png)
 
+<img src="images/image.png" alt="sideView" width="200">
 
 ### Install Visual Studio Code
 1. Go to https://code.visualstudio.com
@@ -106,29 +107,38 @@ It should look like this. Yours might be newer.
 4. **Configure services**:
    - Configure InfluxDB instance and bucket
    - Update `keys.py` with your credentials
+  
+### Setup Discord Webhook
+1. In Discord, create a new server by clicking the + below all your active servers.
+2. Click Create my Own
+3. You will as default get 1 default text channel called General. To the right of this. Click the cogwheel.
+4. Click Integrations -> Create Webhook -> Webhook name and then Copy Webhook URL. Paste this in the keys.py file where it says DISCORD_URL
 
-### Required Libraries
+### Libraries
 - `LCD Folder` - I2C LCD display driver
 - `soil_sensor folder` - STEMMA soil sensor driver
+- `mqtt.py` - MQTT driver from PYCOM
 
-### Required Configuration Files
-Create these files in your project directory:
-
+### Configuration Files
 **`wifiConnection.py`** - WiFi connection utilities  
+**`mqttConnection.py`** - MQTT connection utilities    
 **`keys.py`** - Configuration constants:
 
 ```python
 # Wireless network
-WIFI_SSID = "WIFI_SSID" # Enter your WIFI SSID
-WIFI_PASS = "WIFI_PASSWORD" # Enter your WIFI PASSWORD
+WIFI_SSID = "WIFI_SSID"           # Enter your WIFI SSID
+WIFI_PASS = "WIFI_PASSWORD"       # Enter your WIFI PASSWORD
 
 # MQTT keys
-MQTT_BROKER = "serveradress" # Change to your server  
+MQTT_BROKER = "serveradress"      # Change to your server  
 MQTT_PORT = 1883                  # Default port is 1883  
 MQTT_USER = "admin"               # Change this
 MQTT_PASS = "password"            # Change this
-MQTT_TOPIC = "TopicName"          # any unique name
-CLIENT_ID = "Can be anything"     # any unique name
+MQTT_TOPIC = "TopicName"          # Any unique name
+CLIENT_ID = "Can be anything"     # Any unique name
+
+# Discord
+DISCORD_URL = "URL"               # Your discord webhook URL.
 
 ```
 
@@ -208,26 +218,32 @@ The system logs the following metrics:
 
 
 ### LCD Display
-Real-time display shows:
-- Line 1: Current soil moisture level
+Somewhat real-time display shows:
+- Line 1: Soil moisture level
 - Line 2: Water reservoir level
 
-## Operation
+## Finalizing the design
 
-1. **System starts** and connects to WiFi & 
+Here you can see how pictures with a long dead plant just to see my setup, which is far from great. It's just a working concept. For a more permanent solution I suggest longer cables so batteries, pico and LCD dont have to sit on the edge of the pot.
+
+<img src="https://github.com/user-attachments/assets/25156d86-f47f-412b-aa4f-0ebbfa27e07e" alt="sideView" width="400">
+<img src="https://github.com/user-attachments/assets/577bf73a-9b1a-469e-a36d-f5f2c61c2bd5" alt="topView" width="400">
+
+## Operation
+1. **System starts** and connects to WiFi & MQTT
 2. **Sensors initialize** and begin continuous monitoring
 3. **LCD displays** current readings every 30 seconds
 4. **Automatic watering** triggers when:
    - Soil moisture < 400 AND
    - At least 12 hours since last watering
-5. **Data logging** sends metrics to InfluxDB hourly
+5. **Data logging** sends metrics to InfluxDB hourly via MQTT
 6. **MQTT communication** allows remote monitoring via Grafana
 
 ## Troubleshooting
 
 ### Common Issues
 - **No I2C devices found**: Check wiring and power connections
-- **WiFi connection fails**: Verify credentials in `wifiConnection.py`
+- **WiFi connection fails**: Verify credentials in `keys.py`
 - **InfluxDB errors**: Check URL, token, and bucket configuration
 - **Ultrasonic timeouts**: Ensure sensor has clear line of sight
 
@@ -240,16 +256,11 @@ The system outputs detailed logging including:
 - Pump activation events
 
 ## Safety Notes
-
 - Ensure water pump is properly rated for your power supply
 - Use appropriate protection for electronics around water
 - Monitor initial operation to verify proper moisture thresholds
-- Consider adding water level minimum threshold to prevent dry pumping
 
 ## Future Enhancements
-
-- Email/SMS notifications for low water levels
 - Multiple plant support with individual sensors
 - Better wire management
-
-
+- Remove batteries and use USB to power pump

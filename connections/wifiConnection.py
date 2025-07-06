@@ -25,7 +25,6 @@ def disconnect():
     wlan.disconnect()
     wlan = None 
 
-
 def is_connected():
     wlan = network.WLAN(network.STA_IF)
     return wlan.isconnected()
