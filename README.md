@@ -41,10 +41,15 @@ I hope this will make my plants survive a bit longer and perhaps I'll even learn
 | [Water pump ](https://www.electrokit.com/drankbar-pump-3v)  | Waters the plant  |  <img src="https://www.electrokit.com/upload/product/41018/41018791/41018791.jpg" width=150/> |   5 € |
 | [Motor driver chip](https://www.electrokit.com/en/l293dn-dip-16-drivkrets-push-pull-4-kan)  | Pump controller   |  <img src="https://www.electrokit.com/upload/product/common/DIP-16.jpg" width=150/> | 2 € |
 
+**Minor materials**  
+
 Jumper Wires  
+Tube for pumping water  
+USB cable for Pico  
+4 * 1.5V batteries  
 Connect via Breadbord or solder the wires(highly recommended).
 
-#### **Total Amount ≈ 50 €**
+#### **Total Amount ≈ 55 €**
 
 ### Putting everything together   
 
@@ -195,25 +200,29 @@ SEND_INTERVAL = 1 * 60 * 60 * 1000   # Timer to send data to InfluxDB
 ```
 
 I use WIFI which it tries to connect to before it does anything else. If it has lost it's connection it will try to reconnect to WIFI and MQTT.
+If the water level drops below a set threshold (default: 30%), a notification will be sent to your Discord webhook. A message will then appear in your Discord server, reminding you to refill the water reservoir.
 
 ## Presenting the data
 
 [Grafana](https://grafana.rickardssons.se/public-dashboards/24dd0d5f85534901976ab4207556e5a6)
 
-![alt text](images/grafana.png)
+![image](https://github.com/user-attachments/assets/b22d9a28-44fa-4e09-a428-541501ec85c2)
 
 ### Updates 
+**Temperature**, **Water level** and **Moisture** is saved to InfluxDB once every hour.  
+Every time the pump activates, the following values are saved to InfluxDB:  
+- **Temperature**  
+- **Moisture**  
+- **Water level**  
+- **Pump counter**
+  
+The LCD screen is updated every 30 seconds to make it feel more alive.  
 
-**Temperature** and **moisture** is updated once every hour.
-**Water level** and **pump counter** is updated everytime the pump activates which max will be every 12th hour.
-The LCD screen is however updated every 30 seconds to make it feel more alive.
-## Data Monitoring
-
-### InfluxDB Metrics
+#### InfluxDB Metrics
 The system logs the following metrics:
-- `moisture` - Current soil moisture level
-- `temperature` - Soil temperature in Celsius
-- `water_level` - Water reservoir level in %
+- `moisture` - Current soil moisture level 
+- `temperature` - Soil temperature in Celsius 
+- `water_level` - Water reservoir level in % 
 - `pump_counter` - How often the pump has been activated.
 
 
