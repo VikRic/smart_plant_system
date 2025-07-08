@@ -199,7 +199,7 @@ LCD_INTERVAL = 30 * 1000             # 30 second interval until next LCD screen 
 SEND_INTERVAL = 1 * 60 * 60 * 1000   # Timer to send data to InfluxDB
 ```
 
-I use WIFI which it tries to connect to before it does anything else. If it has lost it's connection it will try to reconnect to WIFI and MQTT.
+I use WIFI which it tries to connect to before it does anything else. If it has lost it's connection it will try to reconnect to WIFI and MQTT.   
 If the water level drops below a set threshold (default: 30%), a notification will be sent to your Discord webhook. A message will then appear in your Discord server, reminding you to refill the water reservoir.
 
 
