@@ -202,11 +202,17 @@ SEND_INTERVAL = 1 * 60 * 60 * 1000   # Timer to send data to InfluxDB
 I use WIFI which it tries to connect to before it does anything else. If it has lost it's connection it will try to reconnect to WIFI and MQTT.
 If the water level drops below a set threshold (default: 30%), a notification will be sent to your Discord webhook. A message will then appear in your Discord server, reminding you to refill the water reservoir.
 
+
 ## Presenting the data
 
 [Grafana](https://grafana.rickardssons.se/public-dashboards/24dd0d5f85534901976ab4207556e5a6)
 
 ![image](https://github.com/user-attachments/assets/b22d9a28-44fa-4e09-a428-541501ec85c2)
+
+**Discord webhook**    
+
+![image](https://github.com/user-attachments/assets/5be8de1c-37b8-4122-ae09-be9613032738)
+
 
 ### Updates 
 **Temperature**, **Water level** and **Moisture** is saved to InfluxDB once every hour.  
