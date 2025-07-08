@@ -54,8 +54,9 @@ Connect via Breadbord or solder the wires(highly recommended).
 ### Putting everything together   
 
 Below is the schematic for my setup. 
-The soil sensor sits in your flower pot. Push it down 1-2 cm. 
-The ultrasonic ranging module you place looking down in your water reservoir / water bucket. You place the pump in the water.
+The soil sensor should be inserted 1–2 cm into the soil of your flower pot.
+Mount the ultrasonic distance sensor above your water reservoir, facing downward to measure the water level.
+Place the pump inside the reservoir to draw water when needed.
 
 ![Schematic](images/schematic.png)
 ```
